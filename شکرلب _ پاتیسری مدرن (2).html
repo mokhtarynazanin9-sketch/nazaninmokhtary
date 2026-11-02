@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>شکرلب | پاتیسری مدرن</title>
+</head>
+<body>
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Vazirmatn',system-ui,sans-serif;background:#FBF1EE;color:#2A1519}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+input{font-family:inherit}
+.lift{transition:transform .25s ease,box-shadow .25s ease}
+.lift:hover{transform:translateY(-6px)}
+.btn{transition:transform .2s ease,filter .2s ease}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.nav-link:hover{color:#B3294F}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #2A1519;outline-offset:3px}
+.tab{background:#fff;color:#2A1519}
+.tab[aria-pressed="true"]{background:#2A1519;color:#FBF1EE}
+
+/* ===== MOTION ===== */
+html{scroll-behavior:smooth}
+#progress{position:fixed;top:0;right:0;height:4px;width:100%;transform-origin:right;transform:scaleX(0);background:linear-gradient(90deg,#B3294F,#F2A3B8);z-index:50;pointer-events:none}
+#sprinkles{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.sp{position:absolute;top:-30px;width:8px;height:20px;border-radius:6px;opacity:.55;animation:fall linear infinite}
+@keyframes fall{to{transform:translate3d(var(--dx,40px),110vh,0) rotate(var(--rot,360deg))}}
+header,section,footer{position:relative;z-index:1}
+
+/* entrance */
+.rv{opacity:0;translate:0 44px;scale:.96;transition:opacity .8s cubic-bezier(.2,.8,.2,1),translate .8s cubic-bezier(.2,.8,.2,1),scale .8s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d,0s)}
+.rv.in{opacity:1;translate:0 0;scale:1}
+.w{display:inline-block;opacity:0;translate:0 60%;rotate:6deg;animation:wordin .8s cubic-bezier(.2,.9,.2,1.2) forwards;animation-delay:var(--d,0s)}
+@keyframes wordin{to{opacity:1;translate:0 0;rotate:0deg}}
+header{animation:drop .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes drop{from{opacity:0;translate:0 -30px}}
+
+/* floating illustrations */
+svg[viewBox="0 0 560 560"]>*:not(:first-child),svg[viewBox="0 0 520 440"]>*:not(:first-child),svg[viewBox="0 0 320 300"]>*:not(:first-child){transform-box:fill-box;transform-origin:center;animation:bob 5s ease-in-out infinite}
+svg[viewBox="0 0 560 560"]>*:nth-child(3n),svg[viewBox="0 0 520 440"]>*:nth-child(3n),svg[viewBox="0 0 320 300"]>*:nth-child(3n){animation-duration:6.5s;animation-delay:-1.5s}
+svg[viewBox="0 0 560 560"]>*:nth-child(3n+1),svg[viewBox="0 0 520 440"]>*:nth-child(3n+1),svg[viewBox="0 0 320 300"]>*:nth-child(3n+1){animation-duration:4.2s;animation-delay:-3s}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-9px) rotate(1.5deg)}}
+article svg[viewBox="0 0 240 200"]{transition:transform .5s cubic-bezier(.2,.9,.2,1.3)}
+article:hover svg[viewBox="0 0 240 200"]{transform:scale(1.12) rotate(-4deg)}
+svg[width="16"][style*="color"],svg[width="18"][style*="color"]{animation:twinkle 2.6s ease-in-out infinite}
+@keyframes twinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.35) rotate(90deg)}}
+
+/* cards: 3D tilt + shine */
+.lift{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--ty,0px));transition:transform .25s ease,box-shadow .25s ease;position:relative}
+.lift:hover{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-8px);box-shadow:0 30px 50px -24px rgba(179,41,79,.45)}
+.lift::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(260px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.55),transparent 60%);opacity:0;transition:opacity .3s}
+.lift:hover::after{opacity:1}
+.pop{animation:pop .6s cubic-bezier(.2,.9,.2,1.2) both;animation-delay:var(--d,0s)}
+@keyframes pop{from{opacity:0;translate:0 30px;scale:.85}}
+
+/* buttons */
+.btn{position:relative;overflow:hidden}
+.btn::before{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg)}
+.btn:hover::before{animation:shine .8s}
+@keyframes shine{to{left:130%}}
+button[aria-label^="افزودن"]{transition:transform .25s cubic-bezier(.2,.9,.2,1.5)}
+button[aria-label^="افزودن"]:hover{transform:rotate(90deg) scale(1.15)}
+button[aria-label^="افزودن"]:active{transform:scale(.85)}
+.tab{transition:background .3s,color .3s,transform .25s cubic-bezier(.2,.9,.2,1.5)}
+.tab:hover{transform:translateY(-3px)}
+.burst{position:fixed;width:9px;height:9px;border-radius:50%;pointer-events:none;z-index:60;animation:burst .9s cubic-bezier(.1,.7,.3,1) forwards}
+@keyframes burst{to{transform:translate(var(--bx),var(--by)) scale(.2);opacity:0}}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv,.w{opacity:1!important;translate:none!important;scale:none!important;rotate:none!important}#sprinkles{display:none}}
+</style>
+
+
+<div dir="rtl" style="width:100%;background:#FBF1EE;color:#2A1519;overflow-x:hidden">
+
+<!-- NAV -->
+<header style="max-width:1280px;margin:0 auto;padding:20px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px">
+  <a href="#top" style="display:flex;align-items:center;gap:12px">
+    <div style="width:44px;height:44px;border-radius:50%;background:#B3294F;display:flex;align-items:center;justify-content:center">
+      <svg width="26" height="26" viewBox="0 0 40 40" aria-hidden="true"><path d="M10 22h20l-3 12H13z" fill="#fff"></path><path d="M11 22c0-8 5-14 9-14s9 6 9 14z" fill="#fff" opacity=".85"></path><circle cx="20" cy="7" r="3" fill="#fff"></circle></svg>
+    </div>
+    <span style="font-size:26px;font-weight:900">شکرلب</span>
+  </a>
+  <nav aria-label="منوی اصلی" style="display:flex;flex-wrap:wrap;gap:0 28px">
+    <a class="nav-link" href="#menu" style="min-height:44px;display:inline-flex;align-items:center;font-size:15px;font-weight:500">منوی منتخب</a>
+    <a class="nav-link" href="#about" style="min-height:44px;display:inline-flex;align-items:center;font-size:15px;font-weight:500">داستان ما</a>
+    <a class="nav-link" href="#order" style="min-height:44px;display:inline-flex;align-items:center;font-size:15px;font-weight:500">نحوهٔ سفارش</a>
+    <a class="nav-link" href="#custom" style="min-height:44px;display:inline-flex;align-items:center;font-size:15px;font-weight:500">کیک اختصاصی</a>
+    <a class="nav-link" href="#contact" style="min-height:44px;display:inline-flex;align-items:center;font-size:15px;font-weight:500">تماس</a>
+  </nav>
+  <a class="btn" href="#menu" style="min-height:48px;padding:0 28px;border-radius:999px;background:#2A1519;color:#FBF1EE;font-size:15px;font-weight:700;display:inline-flex;align-items:center">سفارش آنلاین</a>
+</header>
+
+<!-- HERO -->
+<section id="top" style="max-width:1280px;margin:8px auto 0;padding:0 24px">
+  <div style="background:#F8D5DD;border-radius:48px;padding:clamp(28px,5vw,72px);display:flex;flex-wrap:wrap;align-items:center;gap:40px;position:relative;overflow:hidden">
+    <div style="flex:1 1 440px;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:24px">
+      <span style="display:inline-flex;align-items:center;gap:8px;background:#fff;border-radius:999px;padding:8px 18px;font-size:14px;font-weight:700">
+        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="color:#B3294F"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" fill="currentColor"></path></svg>
+        تازه از فر، هر روز
+      </span>
+      <h1 style="margin:0;font-size:clamp(40px,6.2vw,80px);line-height:1.25;font-weight:900">لحظه‌های <span style="background:linear-gradient(transparent 62%,#F6D58E 62%)">شیرین‌تر</span> با پخت تازهٔ هر روز</h1>
+      <p style="margin:0;font-size:18px;line-height:2;color:#5A3F45;max-width:520px">ماکارون، تارت، کیک و اکلرهای دست‌ساز با کرهٔ اصیل، شکلات باکیفیت و میوهٔ فصل. سفارش بده و تازه تحویل بگیر.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:14px">
+        <a class="btn" href="#menu" style="min-height:56px;padding:0 34px;border-radius:999px;background:#B3294F;color:#fff;font-size:17px;font-weight:700;display:inline-flex;align-items:center;gap:10px">
+          مشاهدهٔ منو
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+        </a>
+        <a class="btn" href="#custom" style="min-height:56px;padding:0 30px;border-radius:999px;border:2px solid #2A1519;color:#2A1519;font-size:17px;font-weight:700;display:inline-flex;align-items:center">سفارش کیک اختصاصی</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px 28px;padding-top:12px">
+        <span style="display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:500">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#2A1519" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14M5 19c3-5 6-8 10-10"></path></svg>
+          مواد اولیهٔ طبیعی
+        </span>
+        <span style="display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:500">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#2A1519" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-4-1-6 1-10z"></path></svg>
+          پخت روزانه
+        </span>
+        <span style="display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:500">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#2A1519" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"></rect><path d="M12 10v10M3 7h18v3H3zM12 7c-2-4-6-3-5 0M12 7c2-4 6-3 5 0"></path></svg>
+          بسته‌بندی هدیه
+        </span>
+      </div>
+    </div>
+
+    <div style="flex:1 1 400px;min-width:0;max-width:560px;margin:0 auto;position:relative;aspect-ratio:1/1">
+      <svg viewBox="0 0 560 560" role="img" aria-label="تصویر شیرینی‌ها: کیک، ماکارون و کوکی" style="width:100%;height:100%;display:block">
+        <circle cx="280" cy="290" r="236" fill="#FBE3E8"></circle>
+        <circle cx="280" cy="290" r="268" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="2" stroke-dasharray="4 12" stroke-linecap="round"></circle>
+        <circle cx="468" cy="120" r="46" fill="#B9D3A0"></circle>
+        <circle cx="86" cy="440" r="28" fill="#F6D58E"></circle>
+        <path d="M96 96l6 18 18 6-18 6-6 18-6-18-18-6 18-6z" fill="#F6D58E"></path>
+        <path d="M470 470l5 14 14 5-14 5-5 14-5-14-14-5 14-5z" fill="#fff"></path>
+        <g transform="translate(88 124) scale(1.6)">
+          <ellipse cx="120" cy="176" rx="92" ry="9" fill="#2A1519" opacity=".08"></ellipse>
+          <rect x="44" y="132" width="152" height="40" rx="12" fill="#7A4332"></rect>
+          <rect x="44" y="118" width="152" height="16" fill="#FDE6EA"></rect>
+          <rect x="44" y="92" width="152" height="28" fill="#7A4332"></rect>
+          <path d="M40 96L40 78C40 62 56 58 70 58L170 58C184 58 200 62 200 78L200 96C200 104 190 104 186 96C182 88 174 88 170 96C166 106 154 106 150 96C146 88 136 88 132 96C128 106 114 106 110 96C106 88 96 88 92 96C88 106 74 106 70 96C66 88 56 88 54 96C50 104 40 104 40 96Z" fill="#F08BA6"></path>
+          <circle cx="120" cy="46" r="13" fill="#B3294F"></circle>
+          <path d="M120 34C122 24 130 18 140 16" stroke="#4E7A3A" stroke-width="4" fill="none" stroke-linecap="round"></path>
+          <circle cx="115" cy="42" r="4" fill="#fff" opacity=".5"></circle>
+        </g>
+        <g transform="translate(40 70) scale(.6)">
+          <path d="M40 100C40 52 76 34 120 34C164 34 200 52 200 100Z" fill="#F08BA6"></path>
+          <rect x="34" y="98" width="172" height="18" rx="9" fill="#FFF4EC"></rect>
+          <path d="M40 116L200 116C200 152 164 168 120 168C76 168 40 152 40 116Z" fill="#F08BA6"></path>
+          <path d="M62 70C70 54 88 46 104 44" stroke="#fff" stroke-opacity=".55" stroke-width="7" stroke-linecap="round" fill="none"></path>
+        </g>
+        <g transform="translate(366 340) scale(.6)">
+          <circle cx="120" cy="102" r="72" fill="#D9A066"></circle>
+          <ellipse cx="86" cy="80" rx="13" ry="9" fill="#4A2A22"></ellipse>
+          <ellipse cx="140" cy="68" rx="12" ry="8" fill="#4A2A22"></ellipse>
+          <ellipse cx="162" cy="110" rx="13" ry="9" fill="#4A2A22"></ellipse>
+          <ellipse cx="112" cy="122" rx="12" ry="8" fill="#4A2A22"></ellipse>
+          <ellipse cx="80" cy="128" rx="11" ry="8" fill="#4A2A22"></ellipse>
+          <ellipse cx="134" cy="148" rx="12" ry="8" fill="#4A2A22"></ellipse>
+        </g>
+      </svg>
+      <div style="position:absolute;bottom:6%;right:2%;background:#fff;border-radius:24px;padding:14px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 20px 40px -20px rgba(42,21,25,.4)">
+        <div style="width:42px;height:42px;border-radius:50%;background:#B9D3A0;display:flex;align-items:center;justify-content:center">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#2A1519" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-4-1-6 1-10z"></path></svg>
+        </div>
+        <div style="display:flex;flex-direction:column;line-height:1.5">
+          <span style="font-size:12px;color:#6B4F55">پیشنهاد این فصل</span>
+          <strong style="font-size:15px;font-weight:800">کیک شکلات و آلبالو</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RIBBON -->
+<section aria-label="دسته‌بندی‌ها" style="max-width:1280px;margin:32px auto 0;padding:0 24px">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 36px;padding:22px 0;font-size:20px;font-weight:800">
+    <span>ماکارون</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="color:#B3294F"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" fill="currentColor"></path></svg>
+    <span>تارت</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="color:#B3294F"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" fill="currentColor"></path></svg>
+    <span>کیک</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="color:#B3294F"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" fill="currentColor"></path></svg>
+    <span>اکلر</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="color:#B3294F"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" fill="currentColor"></path></svg>
+    <span>کوکی</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="color:#B3294F"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" fill="currentColor"></path></svg>
+    <span>کاپ‌کیک</span>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu" style="max-width:1280px;margin:0 auto;padding:72px 24px 0">
+  <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px">
+    <div style="display:flex;flex-direction:column;gap:12px;max-width:560px">
+      <span style="font-size:14px;font-weight:700;color:#B3294F">منوی منتخب</span>
+      <h2 style="margin:0;font-size:clamp(30px,4vw,48px);line-height:1.35;font-weight:900">محبوب‌ترین‌های شکرلب</h2>
+      <p style="margin:0;font-size:16px;line-height:2;color:#6B4F55">هر کدام با دست و با دقت ساخته می‌شوند؛ یکی را انتخاب کن یا همه را امتحان کن.</p>
+    </div>
+    <div role="group" aria-label="فیلتر دسته‌بندی" style="display:flex;flex-wrap:wrap;gap:10px">
+      <button type="button" class="tab" data-cat="all" aria-pressed="true" style="min-height:46px;padding:0 22px;border-radius:999px;border:1px solid #E7CDD3;font-size:15px;font-weight:700">همه</button><button type="button" class="tab" data-cat="cake" aria-pressed="false" style="min-height:46px;padding:0 22px;border-radius:999px;border:1px solid #E7CDD3;font-size:15px;font-weight:700">کیک و کاپ‌کیک</button><button type="button" class="tab" data-cat="tart" aria-pressed="false" style="min-height:46px;padding:0 22px;border-radius:999px;border:1px solid #E7CDD3;font-size:15px;font-weight:700">تارت و اکلر</button><button type="button" class="tab" data-cat="cookie" aria-pressed="false" style="min-height:46px;padding:0 22px;border-radius:999px;border:1px solid #E7CDD3;font-size:15px;font-weight:700">ماکارون و کوکی</button>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:24px;margin-top:40px">
+
+    <div class="item" data-cat="cookie" style="display:contents">
+    <article class="lift" style="flex:0 1 calc(33.333% - 16px);min-width:300px;background:#fff;border-radius:32px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 18px 40px -26px rgba(42,21,25,.35)">
+      <div style="background:#F9D3DC;height:250px;display:flex;align-items:center;justify-content:center;position:relative">
+        <svg viewBox="0 0 240 200" aria-hidden="true" style="width:230px;height:190px">
+          <ellipse cx="120" cy="176" rx="86" ry="9" fill="#2A1519" opacity=".08"></ellipse>
+          <path d="M40 100C40 52 76 34 120 34C164 34 200 52 200 100Z" fill="#F08BA6"></path>
+          <rect x="34" y="98" width="172" height="18" rx="9" fill="#FFF4EC"></rect>
+          <path d="M40 116L200 116C200 152 164 168 120 168C76 168 40 152 40 116Z" fill="#F08BA6"></path>
+          <path d="M62 70C70 54 88 46 104 44" stroke="#fff" stroke-opacity=".55" stroke-width="7" stroke-linecap="round" fill="none"></path>
+        </svg>
+        <span style="position:absolute;top:16px;right:16px;background:#fff;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:700">پرفروش</span>
+      </div>
+      <div style="padding:24px 28px 28px;display:flex;flex-direction:column;gap:10px;flex:1">
+        <span style="font-size:13px;font-weight:500;color:#6B4F55">ماکارون</span>
+        <h3 style="margin:0;font-size:22px;font-weight:800">ماکارون گل‌رز</h3>
+        <p style="margin:0;font-size:15px;line-height:1.9;color:#6B4F55">پوستهٔ نرم بادام با خامهٔ گل محمدی و رایحهٔ لطیف.</p>
+        <div style="margin-top:auto;padding-top:14px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div style="display:flex;flex-direction:column;line-height:1.5">
+            <span style="font-size:12px;color:#6B4F55">جعبهٔ ۶ تایی</span>
+            <span><strong style="font-size:20px;font-weight:800">۱۸۵٬۰۰۰</strong> <span style="font-size:13px;color:#6B4F55">تومان</span></span>
+          </div>
+          <button type="button" aria-label="افزودن ماکارون گل‌رز به سبد" style="width:48px;height:48px;border-radius:50%;border:0;background:#B3294F;color:#fff;display:flex;align-items:center;justify-content:center">
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+    </div>
+
+    <div class="item" data-cat="tart" style="display:contents">
+    <article class="lift" style="flex:0 1 calc(33.333% - 16px);min-width:300px;background:#fff;border-radius:32px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 18px 40px -26px rgba(42,21,25,.35)">
+      <div style="background:#FCE6BD;height:250px;display:flex;align-items:center;justify-content:center;position:relative">
+        <svg viewBox="0 0 240 200" aria-hidden="true" style="width:230px;height:190px">
+          <ellipse cx="120" cy="174" rx="88" ry="9" fill="#2A1519" opacity=".08"></ellipse>
+          <path d="M36 112L204 112L190 168L50 168Z" fill="#D9A066"></path>
+          <path d="M36 112L204 112L202 122L38 122Z" fill="#C48A50"></path>
+          <path d="M42 112C42 66 198 66 198 112Z" fill="#FFF0DE"></path>
+          <circle cx="88" cy="94" r="13" fill="#B3294F"></circle>
+          <circle cx="120" cy="84" r="13" fill="#C23B5E"></circle>
+          <circle cx="152" cy="94" r="13" fill="#B3294F"></circle>
+          <circle cx="104" cy="104" r="11" fill="#C23B5E"></circle>
+          <circle cx="136" cy="104" r="11" fill="#B3294F"></circle>
+          <circle cx="116" cy="79" r="3.5" fill="#fff" opacity=".55"></circle>
+          <circle cx="84" cy="89" r="3.5" fill="#fff" opacity=".55"></circle>
+          <circle cx="148" cy="89" r="3.5" fill="#fff" opacity=".55"></circle>
+          <ellipse cx="120" cy="68" rx="10" ry="5" fill="#7FAE62" transform="rotate(-20 120 68)"></ellipse>
+        </svg>
+      </div>
+      <div style="padding:24px 28px 28px;display:flex;flex-direction:column;gap:10px;flex:1">
+        <span style="font-size:13px;font-weight:500;color:#6B4F55">تارت</span>
+        <h3 style="margin:0;font-size:22px;font-weight:800">تارت توت‌فرنگی</h3>
+        <p style="margin:0;font-size:15px;line-height:1.9;color:#6B4F55">خمیر کره‌ای ترد، کرم وانیل و توت‌فرنگی تازهٔ روز.</p>
+        <div style="margin-top:auto;padding-top:14px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div style="display:flex;flex-direction:column;line-height:1.5">
+            <span style="font-size:12px;color:#6B4F55">تک‌نفره</span>
+            <span><strong style="font-size:20px;font-weight:800">۹۵٬۰۰۰</strong> <span style="font-size:13px;color:#6B4F55">تومان</span></span>
+          </div>
+          <button type="button" aria-label="افزودن تارت توت‌فرنگی به سبد" style="width:48px;height:48px;border-radius:50%;border:0;background:#B3294F;color:#fff;display:flex;align-items:center;justify-content:center">
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+    </div>
+
+    <div class="item" data-cat="cake" style="display:contents">
+    <article class="lift" style="flex:0 1 calc(33.333% - 16px);min-width:300px;background:#fff;border-radius:32px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 18px 40px -26px rgba(42,21,25,.35)">
+      <div style="background:#DCEAD0;height:250px;display:flex;align-items:center;justify-content:center;position:relative">
+        <svg viewBox="0 0 240 200" aria-hidden="true" style="width:230px;height:190px">
+          <ellipse cx="120" cy="176" rx="92" ry="9" fill="#2A1519" opacity=".08"></ellipse>
+          <rect x="44" y="132" width="152" height="40" rx="12" fill="#7A4332"></rect>
+          <rect x="44" y="118" width="152" height="16" fill="#FDE6EA"></rect>
+          <rect x="44" y="92" width="152" height="28" fill="#7A4332"></rect>
+          <path d="M40 96L40 78C40 62 56 58 70 58L170 58C184 58 200 62 200 78L200 96C200 104 190 104 186 96C182 88 174 88 170 96C166 106 154 106 150 96C146 88 136 88 132 96C128 106 114 106 110 96C106 88 96 88 92 96C88 106 74 106 70 96C66 88 56 88 54 96C50 104 40 104 40 96Z" fill="#F08BA6"></path>
+          <circle cx="120" cy="46" r="13" fill="#B3294F"></circle>
+          <path d="M120 34C122 24 130 18 140 16" stroke="#4E7A3A" stroke-width="4" fill="none" stroke-linecap="round"></path>
+          <circle cx="115" cy="42" r="4" fill="#fff" opacity=".5"></circle>
+        </svg>
+        <span style="position:absolute;top:16px;right:16px;background:#fff;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:700">فصلی</span>
+      </div>
+      <div style="padding:24px 28px 28px;display:flex;flex-direction:column;gap:10px;flex:1">
+        <span style="font-size:13px;font-weight:500;color:#6B4F55">کیک</span>
+        <h3 style="margin:0;font-size:22px;font-weight:800">کیک شکلات و آلبالو</h3>
+        <p style="margin:0;font-size:15px;line-height:1.9;color:#6B4F55">لایه‌های براونی، خامهٔ سبک و آلبالوی ترش.</p>
+        <div style="margin-top:auto;padding-top:14px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div style="display:flex;flex-direction:column;line-height:1.5">
+            <span style="font-size:12px;color:#6B4F55">هر برش</span>
+            <span><strong style="font-size:20px;font-weight:800">۱۱۰٬۰۰۰</strong> <span style="font-size:13px;color:#6B4F55">تومان</span></span>
+          </div>
+          <button type="button" aria-label="افزودن کیک شکلات و آلبالو به سبد" style="width:48px;height:48px;border-radius:50%;border:0;background:#B3294F;color:#fff;display:flex;align-items:center;justify-content:center">
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+    </div>
+
+    <div class="item" data-cat="tart" style="display:contents">
+    <article class="lift" style="flex:0 1 calc(33.333% - 16px);min-width:300px;background:#fff;border-radius:32px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 18px 40px -26px rgba(42,21,25,.35)">
+      <div style="background:#F2D9E6;height:250px;display:flex;align-items:center;justify-content:center;position:relative">
+        <svg viewBox="0 0 240 200" aria-hidden="true" style="width:230px;height:190px">
+          <ellipse cx="120" cy="170" rx="92" ry="9" fill="#2A1519" opacity=".08"></ellipse>
+          <g transform="rotate(-10 120 100)">
+            <rect x="30" y="80" width="180" height="62" rx="31" fill="#E6B173"></rect>
+            <rect x="34" y="102" width="172" height="12" rx="6" fill="#FFF4EC"></rect>
+            <rect x="34" y="68" width="172" height="40" rx="20" fill="#5A2A2F"></rect>
+            <rect x="62" y="80" width="12" height="5" rx="2.5" fill="#A8C686"></rect>
+            <rect x="96" y="90" width="12" height="5" rx="2.5" fill="#A8C686"></rect>
+            <rect x="130" y="78" width="12" height="5" rx="2.5" fill="#A8C686"></rect>
+            <rect x="160" y="91" width="12" height="5" rx="2.5" fill="#A8C686"></rect>
+            <rect x="82" y="76" width="30" height="4" rx="2" fill="#fff" opacity=".22"></rect>
+          </g>
+        </svg>
+        <span style="position:absolute;top:16px;right:16px;background:#fff;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:700">جدید</span>
+      </div>
+      <div style="padding:24px 28px 28px;display:flex;flex-direction:column;gap:10px;flex:1">
+        <span style="font-size:13px;font-weight:500;color:#6B4F55">اکلر</span>
+        <h3 style="margin:0;font-size:22px;font-weight:800">اکلر پسته و شکلات</h3>
+        <p style="margin:0;font-size:15px;line-height:1.9;color:#6B4F55">خمیر شوی ظریف، کرم پسته و روکش شکلات تلخ.</p>
+        <div style="margin-top:auto;padding-top:14px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div style="display:flex;flex-direction:column;line-height:1.5">
+            <span style="font-size:12px;color:#6B4F55">تک‌عددی</span>
+            <span><strong style="font-size:20px;font-weight:800">۸۵٬۰۰۰</strong> <span style="font-size:13px;color:#6B4F55">تومان</span></span>
+          </div>
+          <button type="button" aria-label="افزودن اکلر پسته و شکلات به سبد" style="width:48px;height:48px;border-radius:50%;border:0;background:#B3294F;color:#fff;display:flex;align-items:center;justify-content:center">
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+    </div>
+
+    <div class="item" data-cat="cookie" style="display:contents">
+    <article class="lift" style="flex:0 1 calc(33.333% - 16px);min-width:300px;background:#fff;border-radius:32px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 18px 40px -26px rgba(42,21,25,.35)">
+      <div style="background:#F5DFC8;height:250px;display:flex;align-items:center;justify-content:center;position:relative">
+        <svg viewBox="0 0 240 200" aria-hidden="true" style="width:230px;height:190px">
+          <ellipse cx="120" cy="178" rx="80" ry="8" fill="#2A1519" opacity=".08"></ellipse>
+          <circle cx="120" cy="102" r="72" fill="#D9A066"></circle>
+          <ellipse cx="86" cy="80" rx="13" ry="9" fill="#4A2A22"></ellipse>
+          <ellipse cx="140" cy="68" rx="12" ry="8" fill="#4A2A22"></ellipse>
+          <ellipse cx="162" cy="110" rx="13" ry="9" fill="#4A2A22"></ellipse>
+          <ellipse cx="112" cy="122" rx="12" ry="8" fill="#4A2A22"></ellipse>
+          <ellipse cx="80" cy="128" rx="11" ry="8" fill="#4A2A22"></ellipse>
+          <ellipse cx="134" cy="148" rx="12" ry="8" fill="#4A2A22"></ellipse>
+          <path d="M70 60C80 46 94 38 108 36" stroke="#fff" stroke-opacity=".4" stroke-width="6" stroke-linecap="round" fill="none"></path>
+        </svg>
+      </div>
+      <div style="padding:24px 28px 28px;display:flex;flex-direction:column;gap:10px;flex:1">
+        <span style="font-size:13px;font-weight:500;color:#6B4F55">کوکی</span>
+        <h3 style="margin:0;font-size:22px;font-weight:800">کوکی دوبل‌چیپ</h3>
+        <p style="margin:0;font-size:15px;line-height:1.9;color:#6B4F55">بیرون ترد، داخل نرم؛ پر از تکه‌های شکلات.</p>
+        <div style="margin-top:auto;padding-top:14px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div style="display:flex;flex-direction:column;line-height:1.5">
+            <span style="font-size:12px;color:#6B4F55">تک‌عددی</span>
+            <span><strong style="font-size:20px;font-weight:800">۶۵٬۰۰۰</strong> <span style="font-size:13px;color:#6B4F55">تومان</span></span>
+          </div>
+          <button type="button" aria-label="افزودن کوکی دوبل‌چیپ به سبد" style="width:48px;height:48px;border-radius:50%;border:0;background:#B3294F;color:#fff;display:flex;align-items:center;justify-content:center">
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+    </div>
+
+    <div class="item" data-cat="cake" style="display:contents">
+    <article class="lift" style="flex:0 1 calc(33.333% - 16px);min-width:300px;background:#fff;border-radius:32px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 18px 40px -26px rgba(42,21,25,.35)">
+      <div style="background:#D9ECE6;height:250px;display:flex;align-items:center;justify-content:center;position:relative">
+        <svg viewBox="0 0 240 200" aria-hidden="true" style="width:230px;height:190px">
+          <ellipse cx="120" cy="178" rx="72" ry="8" fill="#2A1519" opacity=".08"></ellipse>
+          <path d="M62 112L178 112L164 172L76 172Z" fill="#8FB56F"></path>
+          <path d="M92 114L98 172M120 114L120 172M148 114L142 172" stroke="#7AA05A" stroke-width="4" stroke-linecap="round"></path>
+          <ellipse cx="120" cy="108" rx="66" ry="16" fill="#F08BA6"></ellipse>
+          <ellipse cx="120" cy="88" rx="52" ry="15" fill="#F6A6BC"></ellipse>
+          <ellipse cx="120" cy="68" rx="36" ry="13" fill="#F08BA6"></ellipse>
+          <path d="M104 60C108 42 120 36 124 28C128 38 136 48 138 60Z" fill="#F6A6BC"></path>
+          <circle cx="124" cy="24" r="9" fill="#B3294F"></circle>
+          <circle cx="121" cy="21" r="2.5" fill="#fff" opacity=".55"></circle>
+        </svg>
+      </div>
+      <div style="padding:24px 28px 28px;display:flex;flex-direction:column;gap:10px;flex:1">
+        <span style="font-size:13px;font-weight:500;color:#6B4F55">کاپ‌کیک</span>
+        <h3 style="margin:0;font-size:22px;font-weight:800">کاپ‌کیک وانیل</h3>
+        <p style="margin:0;font-size:15px;line-height:1.9;color:#6B4F55">اسفنج وانیلی و فراستینگ کرمی با تزیین گل‌های خوراکی.</p>
+        <div style="margin-top:auto;padding-top:14px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div style="display:flex;flex-direction:column;line-height:1.5">
+            <span style="font-size:12px;color:#6B4F55">تک‌عددی</span>
+            <span><strong style="font-size:20px;font-weight:800">۷۵٬۰۰۰</strong> <span style="font-size:13px;color:#6B4F55">تومان</span></span>
+          </div>
+          <button type="button" aria-label="افزودن کاپ‌کیک وانیل به سبد" style="width:48px;height:48px;border-radius:50%;border:0;background:#B3294F;color:#fff;display:flex;align-items:center;justify-content:center">
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+          </button>
+        </div>
+      </div>
+    </article>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="max-width:1280px;margin:0 auto;padding:112px 24px 0">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:48px">
+    <div style="flex:1 1 420px;min-width:0;background:#B9D3A0;border-radius:40px;min-height:420px;display:flex;align-items:center;justify-content:center;padding:32px;box-sizing:border-box">
+      <svg viewBox="0 0 520 440" role="img" aria-label="کاپ‌کیک، تارت و کوکی" style="width:100%;max-width:480px;height:auto;display:block">
+        <circle cx="260" cy="220" r="190" fill="#CFE3BC"></circle>
+        <g transform="translate(92 60) scale(1.4)">
+          <ellipse cx="120" cy="178" rx="72" ry="8" fill="#2A1519" opacity=".08"></ellipse>
+          <path d="M62 112L178 112L164 172L76 172Z" fill="#E7B84F"></path>
+          <path d="M92 114L98 172M120 114L120 172M148 114L142 172" stroke="#D2A23A" stroke-width="4" stroke-linecap="round"></path>
+          <ellipse cx="120" cy="108" rx="66" ry="16" fill="#F08BA6"></ellipse>
+          <ellipse cx="120" cy="88" rx="52" ry="15" fill="#F6A6BC"></ellipse>
+          <ellipse cx="120" cy="68" rx="36" ry="13" fill="#F08BA6"></ellipse>
+          <path d="M104 60C108 42 120 36 124 28C128 38 136 48 138 60Z" fill="#F6A6BC"></path>
+          <circle cx="124" cy="24" r="9" fill="#B3294F"></circle>
+        </g>
+        <g transform="translate(8 250) scale(.8)">
+          <path d="M36 112L204 112L190 168L50 168Z" fill="#D9A066"></path>
+          <path d="M36 112L204 112L202 122L38 122Z" fill="#C48A50"></path>
+          <path d="M42 112C42 66 198 66 198 112Z" fill="#FFF0DE"></path>
+          <circle cx="88" cy="94" r="13" fill="#B3294F"></circle>
+          <circle cx="120" cy="84" r="13" fill="#C23B5E"></circle>
+          <circle cx="152" cy="94" r="13" fill="#B3294F"></circle>
+          <circle cx="104" cy="104" r="11" fill="#C23B5E"></circle>
+          <circle cx="136" cy="104" r="11" fill="#B3294F"></circle>
+        </g>
+        <g transform="translate(338 270) scale(.7)">
+          <circle cx="120" cy="102" r="72" fill="#D9A066"></circle>
+          <ellipse cx="86" cy="80" rx="13" ry="9" fill="#4A2A22"></ellipse>
+          <ellipse cx="140" cy="68" rx="12" ry="8" fill="#4A2A22"></ellipse>
+          <ellipse cx="162" cy="110" rx="13" ry="9" fill="#4A2A22"></ellipse>
+          <ellipse cx="112" cy="122" rx="12" ry="8" fill="#4A2A22"></ellipse>
+          <ellipse cx="134" cy="148" rx="12" ry="8" fill="#4A2A22"></ellipse>
+        </g>
+        <path d="M60 80l5 14 14 5-14 5-5 14-5-14-14-5 14-5z" fill="#fff"></path>
+        <path d="M456 60l4 11 11 4-11 4-4 11-4-11-11-4 11-4z" fill="#F6D58E"></path>
+      </svg>
+    </div>
+    <div style="flex:1 1 440px;min-width:0;display:flex;flex-direction:column;gap:20px">
+      <span style="font-size:14px;font-weight:700;color:#B3294F">داستان ما</span>
+      <h2 style="margin:0;font-size:clamp(30px,4vw,48px);line-height:1.35;font-weight:900">از یک آشپزخانهٔ کوچک تا میز شما</h2>
+      <p style="margin:0;font-size:17px;line-height:2.1;color:#5A3F45">شکرلب با یک باور ساده شروع شد: شیرینی خوب یعنی مواد خوب، صبر و دست‌های دلسوز. هر صبح خمیرها را از نو می‌سازیم و هر روز فقط به اندازهٔ همان روز می‌پزیم.</p>
+      <p style="margin:0;font-size:17px;line-height:2.1;color:#5A3F45">میان‌بر نمی‌شناسیم؛ فقط کره، شکلات، میوه و کلی وسواس.</p>
+      <div style="display:flex;flex-direction:column;gap:14px;padding-top:8px">
+        <div style="display:flex;align-items:center;gap:16px">
+          <div style="width:48px;height:48px;border-radius:16px;background:#F8D5DD;display:flex;align-items:center;justify-content:center;flex:none">
+            <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#2A1519" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14M5 19c3-5 6-8 10-10"></path></svg>
+          </div>
+          <span style="font-size:16px;font-weight:700">مواد اولیهٔ اصیل و انتخاب‌شده</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px">
+          <div style="width:48px;height:48px;border-radius:16px;background:#FCE6BD;display:flex;align-items:center;justify-content:center;flex:none">
+            <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#2A1519" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-4-1-6 1-10z"></path></svg>
+          </div>
+          <span style="font-size:16px;font-weight:700">پخت روزانه، بدون انبار کردن</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px">
+          <div style="width:48px;height:48px;border-radius:16px;background:#DCEAD0;display:flex;align-items:center;justify-content:center;flex:none">
+            <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#2A1519" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"></rect><path d="M12 10v10M3 7h18v3H3zM12 7c-2-4-6-3-5 0M12 7c2-4 6-3 5 0"></path></svg>
+          </div>
+          <span style="font-size:16px;font-weight:700">بسته‌بندی شیک، آمادهٔ هدیه دادن</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section id="order" style="max-width:1280px;margin:0 auto;padding:112px 24px 0">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;max-width:620px;margin:0 auto">
+    <span style="font-size:14px;font-weight:700;color:#B3294F">نحوهٔ سفارش</span>
+    <h2 style="margin:0;font-size:clamp(30px,4vw,48px);line-height:1.35;font-weight:900">سه قدم تا شیرینی</h2>
+    <p style="margin:0;font-size:16px;line-height:2;color:#6B4F55">ساده، سریع و بدون دردسر؛ از انتخاب تا تحویل.</p>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:24px;margin-top:48px">
+    <div style="flex:1 1 300px;min-width:0;background:#DCEAD0;border-radius:32px;padding:36px 32px;display:flex;flex-direction:column;gap:14px">
+      <span style="font-size:64px;font-weight:900;line-height:1;color:#2A1519;opacity:.85">۱</span>
+      <h3 style="margin:0;font-size:24px;font-weight:800">انتخاب کن</h3>
+      <p style="margin:0;font-size:16px;line-height:2;color:#4A3338">از منو طعم‌های مورد علاقه‌ات را انتخاب کن یا از ما پیشنهاد بگیر.</p>
+    </div>
+    <div style="flex:1 1 300px;min-width:0;background:#FCE6BD;border-radius:32px;padding:36px 32px;display:flex;flex-direction:column;gap:14px">
+      <span style="font-size:64px;font-weight:900;line-height:1;color:#2A1519;opacity:.85">۲</span>
+      <h3 style="margin:0;font-size:24px;font-weight:800">سفارش بده</h3>
+      <p style="margin:0;font-size:16px;line-height:2;color:#4A3338">سفارشت را آنلاین یا تلفنی ثبت کن و زمان تحویل را مشخص کن.</p>
+    </div>
+    <div style="flex:1 1 300px;min-width:0;background:#F8D5DD;border-radius:32px;padding:36px 32px;display:flex;flex-direction:column;gap:14px">
+      <span style="font-size:64px;font-weight:900;line-height:1;color:#2A1519;opacity:.85">۳</span>
+      <h3 style="margin:0;font-size:24px;font-weight:800">تازه تحویل بگیر</h3>
+      <p style="margin:0;font-size:16px;line-height:2;color:#4A3338">شیرینی‌ها را تازه و در بسته‌بندی شیک، حضوری یا درِ خانه تحویل بگیر.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOM CAKE -->
+<section id="custom" style="max-width:1280px;margin:0 auto;padding:112px 24px 0">
+  <div style="background:#3A1220;color:#FBF1EE;border-radius:48px;padding:clamp(28px,5vw,72px);display:flex;flex-wrap:wrap;align-items:center;gap:40px;overflow:hidden">
+    <div style="flex:1 1 420px;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:22px">
+      <span style="font-size:14px;font-weight:700;color:#F6A6BC">سفارش اختصاصی</span>
+      <h2 style="margin:0;font-size:clamp(30px,4vw,52px);line-height:1.35;font-weight:900">کیک اختصاصی برای لحظه‌های خاص</h2>
+      <p style="margin:0;font-size:17px;line-height:2.1;color:#E3CBD1;max-width:520px">طرح، طعم و اندازه را تو بگو؛ ما می‌سازیم. از جشن‌های کوچک خانوادگی تا مراسم بزرگ.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <span style="padding:10px 20px;border-radius:999px;border:1px solid rgba(251,241,238,.35);font-size:15px;font-weight:500">تولد</span>
+        <span style="padding:10px 20px;border-radius:999px;border:1px solid rgba(251,241,238,.35);font-size:15px;font-weight:500">عروسی</span>
+        <span style="padding:10px 20px;border-radius:999px;border:1px solid rgba(251,241,238,.35);font-size:15px;font-weight:500">سالگرد</span>
+        <span style="padding:10px 20px;border-radius:999px;border:1px solid rgba(251,241,238,.35);font-size:15px;font-weight:500">جشن شرکتی</span>
+      </div>
+      <a class="btn" href="#contact" style="min-height:56px;padding:0 34px;border-radius:999px;background:#F6A6BC;color:#2A1519;font-size:17px;font-weight:800;display:inline-flex;align-items:center;gap:10px;margin-top:8px">
+        ثبت سفارش اختصاصی
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+      </a>
+    </div>
+    <div style="flex:1 1 320px;min-width:0;max-width:420px;margin:0 auto">
+      <svg viewBox="0 0 320 300" role="img" aria-label="کیک سه‌طبقه" style="width:100%;height:auto;display:block">
+        <circle cx="160" cy="150" r="140" fill="#4E1B2D"></circle>
+        <ellipse cx="160" cy="282" rx="130" ry="12" fill="#000" opacity=".25"></ellipse>
+        <rect x="40" y="196" width="240" height="78" rx="20" fill="#FDE6EA"></rect>
+        <rect x="40" y="196" width="240" height="24" rx="12" fill="#F08BA6"></rect>
+        <rect x="76" y="134" width="168" height="66" rx="18" fill="#F6A6BC"></rect>
+        <rect x="76" y="134" width="168" height="22" rx="11" fill="#FFF4EC"></rect>
+        <rect x="112" y="84" width="96" height="54" rx="16" fill="#FDE6EA"></rect>
+        <rect x="112" y="84" width="96" height="20" rx="10" fill="#B9D3A0"></rect>
+        <circle cx="64" cy="252" r="5" fill="#fff"></circle>
+        <circle cx="94" cy="252" r="5" fill="#fff"></circle>
+        <circle cx="124" cy="252" r="5" fill="#fff"></circle>
+        <circle cx="154" cy="252" r="5" fill="#fff"></circle>
+        <circle cx="184" cy="252" r="5" fill="#fff"></circle>
+        <circle cx="214" cy="252" r="5" fill="#fff"></circle>
+        <circle cx="244" cy="252" r="5" fill="#fff"></circle>
+        <circle cx="160" cy="68" r="13" fill="#E0405F"></circle>
+        <path d="M160 55C162 46 170 40 180 38" stroke="#7FAE62" stroke-width="4" fill="none" stroke-linecap="round"></path>
+        <circle cx="155" cy="64" r="4" fill="#fff" opacity=".5"></circle>
+        <path d="M262 70l5 14 14 5-14 5-5 14-5-14-14-5 14-5z" fill="#F6D58E"></path>
+        <path d="M48 110l4 11 11 4-11 4-4 11-4-11-11-4 11-4z" fill="#fff"></path>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="max-width:1280px;margin:0 auto;padding:112px 24px 0">
+  <div style="display:flex;flex-wrap:wrap;gap:24px">
+    <div style="flex:1 1 420px;min-width:0;background:#fff;border-radius:40px;padding:clamp(28px,4vw,48px);display:flex;flex-direction:column;gap:22px;box-shadow:0 18px 40px -26px rgba(42,21,25,.35)">
+      <span style="font-size:14px;font-weight:700;color:#B3294F">تماس با ما</span>
+      <h2 style="margin:0;font-size:clamp(26px,3.2vw,38px);line-height:1.4;font-weight:900">بیا شیرینی را از نزدیک ببین</h2>
+      <div style="display:flex;align-items:center;gap:16px">
+        <div style="width:48px;height:48px;border-radius:16px;background:#F8D5DD;display:flex;align-items:center;justify-content:center;flex:none">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#2A1519" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>
+        </div>
+        <span style="font-size:16px;line-height:1.8">[آدرس شعبه]</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <div style="width:48px;height:48px;border-radius:16px;background:#FCE6BD;display:flex;align-items:center;justify-content:center;flex:none">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#2A1519" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+        </div>
+        <span style="font-size:16px;line-height:1.8">[ساعات کاری]</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <div style="width:48px;height:48px;border-radius:16px;background:#DCEAD0;display:flex;align-items:center;justify-content:center;flex:none">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#2A1519" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"></path></svg>
+        </div>
+        <span style="font-size:16px;line-height:1.8">[شمارهٔ تماس]</span>
+      </div>
+    </div>
+    <div style="flex:1 1 420px;min-width:0;background:#F8D5DD;border-radius:40px;padding:clamp(28px,4vw,48px);display:flex;flex-direction:column;justify-content:center;gap:18px">
+      <h2 style="margin:0;font-size:clamp(26px,3.2vw,38px);line-height:1.4;font-weight:900">از طعم‌های جدید باخبر شو</h2>
+      <p style="margin:0;font-size:16px;line-height:2;color:#5A3F45">ایمیلت را بگذار تا تخفیف‌ها و منوی فصلی را اول از همه ببینی.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;padding-top:6px">
+        <input type="email" aria-label="ایمیل" placeholder="ایمیل شما" style="flex:1 1 220px;min-width:0;height:56px;border-radius:999px;border:1px solid #E7CDD3;background:#fff;padding:0 24px;font-size:16px;color:#2A1519;box-sizing:border-box">
+        <button class="btn" type="button" style="height:56px;padding:0 32px;border-radius:999px;border:0;background:#B3294F;color:#fff;font-size:16px;font-weight:700">عضویت</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:#2A1519;color:#FBF1EE;margin-top:112px;padding:56px 24px 40px">
+  <div style="max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:36px">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:32px">
+      <div style="display:flex;flex-direction:column;gap:14px;max-width:360px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:44px;height:44px;border-radius:50%;background:#B3294F;display:flex;align-items:center;justify-content:center">
+            <svg width="26" height="26" viewBox="0 0 40 40" aria-hidden="true"><path d="M10 22h20l-3 12H13z" fill="#fff"></path><path d="M11 22c0-8 5-14 9-14s9 6 9 14z" fill="#fff" opacity=".85"></path><circle cx="20" cy="7" r="3" fill="#fff"></circle></svg>
+          </div>
+          <span style="font-size:26px;font-weight:900">شکرلب</span>
+        </div>
+        <p style="margin:0;font-size:15px;line-height:2;color:#D9BFC5">پاتیسری مدرن؛ شیرینی تازه، ساده و خوش‌طعم برای هر روز و هر مناسبت.</p>
+      </div>
+      <nav aria-label="پیوندهای پایین صفحه" style="display:flex;flex-wrap:wrap;gap:0 32px">
+        <a href="#menu" style="min-height:44px;display:inline-flex;align-items:center;font-size:15px;color:#D9BFC5">منوی منتخب</a>
+        <a href="#about" style="min-height:44px;display:inline-flex;align-items:center;font-size:15px;color:#D9BFC5">داستان ما</a>
+        <a href="#order" style="min-height:44px;display:inline-flex;align-items:center;font-size:15px;color:#D9BFC5">نحوهٔ سفارش</a>
+        <a href="#custom" style="min-height:44px;display:inline-flex;align-items:center;font-size:15px;color:#D9BFC5">کیک اختصاصی</a>
+        <a href="#contact" style="min-height:44px;display:inline-flex;align-items:center;font-size:15px;color:#D9BFC5">تماس</a>
+      </nav>
+    </div>
+    <div style="border-top:1px solid rgba(251,241,238,.18);padding-top:24px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:14px;color:#D9BFC5">
+      <span>© ۱۴۰۵ شکرلب. همهٔ حقوق محفوظ است.</span>
+      <span>با عشق و کره پخته شده</span>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<script>
+var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var COLORS=['#B3294F','#F2A3B8','#F9D3DC','#E8B04B','#7A3FA0','#2F7A5B'];
+
+/* filter with pop-in */
+function filt(c){
+var n=0;
+document.querySelectorAll('.item').forEach(function(i){
+var show=(c==='all'||i.dataset.cat===c);
+i.style.display=show?'contents':'none';
+var a=i.querySelector('article');
+if(show&&a){a.classList.remove('pop');void a.offsetWidth;a.style.setProperty('--d',(n*0.08)+'s');a.classList.add('pop');n++}
+});
+}
+document.querySelectorAll('.tab').forEach(function(b){b.addEventListener('click',function(e){
+document.querySelectorAll('.tab').forEach(function(t){t.setAttribute('aria-pressed',t===b?'true':'false')});
+filt(b.dataset.cat);
+burst(e.clientX,e.clientY,10);
+})});
+
+/* confetti burst */
+function burst(x,y,n){
+if(reduce)return;
+for(var k=0;k<n;k++){
+var d=document.createElement('i');d.className='burst';
+var ang=Math.random()*Math.PI*2,r=40+Math.random()*60;
+d.style.left=x+'px';d.style.top=y+'px';
+d.style.background=COLORS[k%COLORS.length];
+d.style.setProperty('--bx',Math.cos(ang)*r+'px');
+d.style.setProperty('--by',Math.sin(ang)*r+'px');
+document.body.appendChild(d);
+setTimeout(function(){d.remove()},950);
+}
+}
+document.querySelectorAll('button[aria-label^="افزودن"]').forEach(function(b){b.addEventListener('click',function(e){var r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,16)})});
+
+if(!reduce){
+/* progress bar */
+var pb=document.createElement('div');pb.id='progress';document.body.appendChild(pb);
+
+/* falling sprinkles */
+var sp=document.createElement('div');sp.id='sprinkles';sp.setAttribute('aria-hidden','true');
+for(var s=0;s<16;s++){var e=document.createElement('i');e.className='sp';
+e.style.left=Math.random()*100+'%';e.style.background=COLORS[s%COLORS.length];
+e.style.animationDuration=(14+Math.random()*16)+'s';e.style.animationDelay=(-Math.random()*25)+'s';
+e.style.setProperty('--dx',(Math.random()*160-80)+'px');e.style.setProperty('--rot',(Math.random()*720-360)+'deg');
+sp.appendChild(e)}
+document.body.insertBefore(sp,document.body.firstChild);
+
+/* h1 word-by-word */
+var h=document.querySelector('h1');
+if(h){var idx=0;Array.prototype.slice.call(h.childNodes).forEach(function(nd){
+if(nd.nodeType===3){var f=document.createDocumentFragment();
+nd.textContent.split(/(\s+)/).forEach(function(t){
+if(!t)return;
+if(/^\s+$/.test(t)){f.appendChild(document.createTextNode(' '));return}
+var w=document.createElement('span');w.className='w';w.style.setProperty('--d',(0.25+idx++*0.12)+'s');w.textContent=t;f.appendChild(w)});
+nd.replaceWith(f)}
+else if(nd.nodeType===1){nd.classList.add('w');nd.style.setProperty('--d',(0.25+idx++*0.12)+'s')}
+})}
+
+/* scroll reveal */
+var targets=document.querySelectorAll('section > div, section > div > *, article, footer > div');
+var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}})},{threshold:.12});
+targets.forEach(function(t,i){
+if(t.closest('#top')&&t.tagName!=='ARTICLE'&&t.parentElement.tagName!=='SECTION')return;
+if(t.matches('article')){t.classList.add('rv');t.style.setProperty('--d',((i%3)*0.12)+'s')}
+else if(t.parentElement.tagName==='SECTION'){t.classList.add('rv')}
+else{t.classList.add('rv');t.style.setProperty('--d',((i%4)*0.1)+'s')}
+io.observe(t)});
+setTimeout(function(){document.querySelectorAll('.rv:not(.in)').forEach(function(t){var r=t.getBoundingClientRect();if(r.top<innerHeight)t.classList.add('in')})},100);
+
+/* tilt + shine on cards */
+document.querySelectorAll('.lift').forEach(function(c){
+c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();var px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
+c.style.setProperty('--ry',((px-.5)*-10)+'deg');c.style.setProperty('--rx',((py-.5)*8)+'deg');
+c.style.setProperty('--mx',px*100+'%');c.style.setProperty('--my',py*100+'%')});
+c.addEventListener('pointerleave',function(){c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg')})});
+
+/* scroll: progress + hero parallax */
+var hero=document.querySelector('svg[viewBox="0 0 560 560"]');
+function onScroll(){var m=document.documentElement.scrollHeight-innerHeight;
+pb.style.transform='scaleX('+(m>0?scrollY/m:0)+')';
+if(hero&&scrollY<1200)hero.style.transform='translateY('+(scrollY*0.08)+'px) rotate('+(scrollY*0.01)+'deg)'}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+}
+</script>
+</body>
+</html>
